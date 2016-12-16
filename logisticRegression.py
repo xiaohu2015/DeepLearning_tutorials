@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # 定义分类器
     classifier = LogisticRegression(x, n_in=784, n_out=10)
     cost = classifier.cost(y_)
-    accuacy = classifier.accuarcy(y_)
+    accuracy = classifier.accuarcy(y_)
     predictor = classifier.y_pred
     # 定义训练器
     train_op = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(
@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 avg_cost += sess.run(cost, feed_dict={x: x_batch, y_: y_batch})/batch_num
             # 输出
             if epoch % display_step == 0:
-                val_acc = sess.run(accuacy, feed_dict={x: mnist.validation.images,
+                val_acc = sess.run(accuracy, feed_dict={x: mnist.validation.images,
                                                        y_: mnist.validation.labels})
                 print("Epoch {0} cost: {1}, validation accuacy: {2}".format(epoch,
                       avg_cost, val_acc))
