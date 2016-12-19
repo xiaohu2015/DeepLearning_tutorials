@@ -9,3 +9,5 @@ The deeplearning algorithms includes (now):
 - Restricted Boltzmann Machines (RBM) [rbm.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/rbm.py)
 
 Note: the codes are mostly similar to the [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/)
+
+### Don't hesitate to star this project if it is helpful!
