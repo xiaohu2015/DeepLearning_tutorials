@@ -88,7 +88,11 @@ class RBM(object):
         # Compute the positive phase
         ph_mean, ph_sample = self.sample_h_given_v(self.input)
         # The old state of the chain
-        chain_start = ph_sample
+        if persistent is None:
+            chain_start = ph_sample
+        else:
+            chain_start = persistent
+
         # Use tf.while_loop to do the CD-k
         cond = lambda i, nv_mean, nv_sample, nh_mean, nh_sample: i < k
         body = lambda i, nv_mean, nv_sample, nh_mean, nh_sample: (i+1, ) + self.gibbs_hvh(nh_sample)
@@ -103,7 +107,11 @@ class RBM(object):
         new_W = tf.assign(self.W, update_W)
         new_vbias = tf.assign(self.vbias, update_vbias)
         new_hbias = tf.assign(self.hbias, update_hbias)
-        return [new_W, new_vbias, new_hbias]  # use for training
+        if persistent is not None:
+            new_persistent = [tf.assign(persistent, nh_sample)]
+        else:
+            new_persistent = []
+        return [new_W, new_vbias, new_hbias] + new_persistent  # use for training
 
     def get_reconstruction_cost(self):
         """Compute the cross-entropy of the original input and the reconstruction"""
@@ -126,8 +134,11 @@ if __name__ == "__main__":
     rbm = RBM(x, n_visiable=n_visiable, n_hidden=n_hidden)
     
     learning_rate = 0.1
+    batch_size = 20
     cost = rbm.get_reconstruction_cost()
-    train_ops = rbm.get_train_ops(learning_rate=learning_rate, k=1)
+    # Create the persistent variable
+    persistent_chain = tf.Variable(tf.zeros([batch_size, n_hidden]), dtype=tf.float32)
+    train_ops = rbm.get_train_ops(learning_rate=learning_rate, k=15, persistent=persistent_chain)
     init = tf.global_variables_initializer()
 
     output_folder = "rbm_plots"
@@ -135,8 +146,7 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
     os.chdir(output_folder)
 
-    training_epochs = 30
-    batch_size = 20
+    training_epochs = 15
     display_step = 1
     print("Start training...")
    
@@ -162,7 +172,7 @@ if __name__ == "__main__":
                 img_shape=(28, 28),
                 tile_shape=(10, 10),
                 tile_spacing=(1, 1)))
-            image.save("filters_at_epoch_{0}.png".format(epoch))
+            image.save("10filters_at_epoch_{0}.png".format(epoch))
 
         end_time = timeit.default_timer()
         training_time = end_time - start_time
@@ -208,7 +218,7 @@ if __name__ == "__main__":
                                             tile_shape=(1, n_chains),
                                             tile_spacing=(1, 1))
         image = Image.fromarray(image_data)
-        image.save("original_and_{0}samples.png".format(n_samples))
+        image.save("10original_and_{0}samples.png".format(n_samples))
 
 
 
