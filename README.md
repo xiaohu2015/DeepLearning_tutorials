@@ -3,6 +3,7 @@ The deeplearning algorithms are carefully implemented by [tensorflow](https://ww
 ### Environment
 - Python 3.5
 - tensorflow 0.12
+
 ### The deeplearning algorithms includes (now):
 - Logistic Regression  [logisticRegression.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/logisticRegression.py)
 - Multi-Layer Perceptron (MLP) [mlp.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/mlp.py)
