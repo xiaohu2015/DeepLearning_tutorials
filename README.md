@@ -7,6 +7,7 @@ The deeplearning algorithms includes (now):
 - Denoising Aotoencoder (DA) [da.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/da.py)
 - Stacked Denoising Autoencoder (SDA) [sda.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/sdan.py)
 - Restricted Boltzmann Machine (RBM) [rbm.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/rbm.py)
+- Deep Belief Network (DBN) [dbn.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/dbn.py)
 
 ### Results
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
