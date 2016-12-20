@@ -6,7 +6,7 @@ The deeplearning algorithms includes (now):
 - Convolution Neural Network (CNN) [cnn.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/cnn.py)
 - Denoising Aotoencoder (DA) [da.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/da.py)
 - Stacked Denoising Autoencoder (SDA) [sda.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/sdan.py)
-- Restricted Boltzmann Machines (RBM) [rbm.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/rbm.py)
+- Restricted Boltzmann Machine (RBM) [rbm.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/rbm.py)
 
 Note: the project aims at imitating the well-implemented algorithms in [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/) (coded by [Theano](http://deeplearning.net/software/theano/index.html)).
 
