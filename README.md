@@ -1,4 +1,4 @@
-# DeepLearning tutorials with Tensorflow
+# Deep Learning Tutorials with Tensorflow
 The deeplearning algorithms are carefully implemented by [tensorflow](https://www.tensorflow.org/).  
 ### Environment
 - Python 3.5
