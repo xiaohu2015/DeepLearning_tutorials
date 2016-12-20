@@ -134,6 +134,9 @@ class RBM(object):
         """Compute the cross-entropy of the original input and the reconstruction"""
         activation_h = self.propup(self.input)
         activation_v = self.propdown(activation_h)
+        # Do this to not get Nan
+        activation_h_clip = tf.clip_by_value(activation_h, clip_value_min=1e-20, clip_value_max=1.0)
+        activation_v_clip = tf.clip_by_value(activation_v, clip_value_min=1e-20, clip_value_max=1.0)
         cross_entropy = -tf.reduce_mean(tf.reduce_sum(self.input*(tf.log(activation_v)) + 
                                     (1.0 - self.input)*(tf.log(1.0 - activation_v)), axis=1))
         return cross_entropy                                            
