@@ -16,4 +16,8 @@ The deeplearning algorithms includes (now):
 
 Note: the project aims at imitating the well-implemented algorithms in [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/) (coded by [Theano](http://deeplearning.net/software/theano/index.html)).
 
+### Environment
+- Python 3.5
+- tensorflow 0.12
+
 #### Don't hesitate to star this project if it is helpful!
