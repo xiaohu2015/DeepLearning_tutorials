@@ -10,4 +10,4 @@ The deeplearning algorithms includes (now):
 
 Note: the codes are mostly similar to the [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/)
 
-### Don't hesitate to star this project if it is helpful!
+#### Don't hesitate to star this project if it is helpful!
