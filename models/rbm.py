@@ -77,7 +77,14 @@ class RBM(object):
         v1_mean, v1_sample = self.sample_v_given_h(h0_sample)
         h1_mean, h1_sample = self.sample_h_given_v(v1_sample)
         return (v1_mean, v1_sample, h1_mean, h1_sample)
-    
+
+    def free_energy(self, v_sample):
+        """Compute the free energy"""
+        wx_b = tf.matmul(v_sample, self.W) + self.hbias
+        vbias_term = tf.matmul(v_sample, tf.expand_dims(self.vbias, axis=1))
+        hidden_term = tf.reduce_sum(tf.log(1.0 + tf.exp(wx_b)), axis=1)
+        return -hidden_term - vbias_term
+
     def get_train_ops(self, learning_rate=0.1, k=1, persistent=None):
         """
         Get the training opts by CD-k
@@ -98,6 +105,7 @@ class RBM(object):
         body = lambda i, nv_mean, nv_sample, nh_mean, nh_sample: (i+1, ) + self.gibbs_hvh(nh_sample)
         i, nv_mean, nv_sample, nh_mean, nh_sample = tf.while_loop(cond, body, loop_vars=[tf.constant(0), tf.zeros(tf.shape(self.input)), 
                                                             tf.zeros(tf.shape(self.input)), tf.zeros(tf.shape(chain_start)), chain_start])
+        """
         # Compute the update values for each parameter
         update_W = self.W + learning_rate * (tf.matmul(tf.transpose(self.input), ph_mean) - 
                                 tf.matmul(tf.transpose(nv_sample), nh_mean)) / tf.to_float(tf.shape(self.input)[0])  # use probability
@@ -107,11 +115,20 @@ class RBM(object):
         new_W = tf.assign(self.W, update_W)
         new_vbias = tf.assign(self.vbias, update_vbias)
         new_hbias = tf.assign(self.hbias, update_hbias)
+        """
+        chain_end = tf.stop_gradient(nv_sample)   # do not compute the gradients
+        cost = tf.reduce_mean(self.free_energy(self.input)) - tf.reduce_mean(self.free_energy(chain_end))
+        # Compute the gradients
+        gparams = tf.gradients(ys=[cost], xs=self.params)
+        new_params = []
+        for gparam, param in zip(gparams, self.params):
+            new_params.append(tf.assign(param, param - gparam*learning_rate))
+
         if persistent is not None:
             new_persistent = [tf.assign(persistent, nh_sample)]
         else:
             new_persistent = []
-        return [new_W, new_vbias, new_hbias] + new_persistent  # use for training
+        return new_params + new_persistent  # use for training
 
     def get_reconstruction_cost(self):
         """Compute the cross-entropy of the original input and the reconstruction"""
@@ -172,7 +189,7 @@ if __name__ == "__main__":
                 img_shape=(28, 28),
                 tile_shape=(10, 10),
                 tile_spacing=(1, 1)))
-            image.save("10filters_at_epoch_{0}.png".format(epoch))
+            image.save("new_filters_at_epoch_{0}.png".format(epoch))
 
         end_time = timeit.default_timer()
         training_time = end_time - start_time
@@ -218,9 +235,4 @@ if __name__ == "__main__":
                                             tile_shape=(1, n_chains),
                                             tile_spacing=(1, 1))
         image = Image.fromarray(image_data)
-        image.save("10original_and_{0}samples.png".format(n_samples))
-
-
-
-
-
+        image.save("new_original_and_{0}samples.png".format(n_samples))
