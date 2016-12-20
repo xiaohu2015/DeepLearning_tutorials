@@ -1,4 +1,4 @@
-# DeepLearning_tutorials
+# DeepLearning tutorials with Tensorflow
 The deeplearning algorithms implemented by tensorflow  
 The deeplearning algorithms includes (now):
 - Logistic Regression  [logisticRegression.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/logisticRegression.py)
