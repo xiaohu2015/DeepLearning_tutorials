@@ -19,5 +19,6 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
 ![2](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_filters_at_epoch_14.png)
 ![3](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_original_and_10samples.png)
+![4](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/DBN_results.png)
 
 #### Don't hesitate to star this project if it is helpful!
