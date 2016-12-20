@@ -1,6 +1,9 @@
 # DeepLearning tutorials with Tensorflow
 The deeplearning algorithms are carefully implemented by [tensorflow](https://www.tensorflow.org/).  
-The deeplearning algorithms includes (now):
+### Environment
+- Python 3.5
+- tensorflow 0.12
+### The deeplearning algorithms includes (now):
 - Logistic Regression  [logisticRegression.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/logisticRegression.py)
 - Multi-Layer Perceptron (MLP) [mlp.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/mlp.py)
 - Convolution Neural Network (CNN) [cnn.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/cnn.py)
@@ -15,11 +18,5 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
 ![2](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_filters_at_epoch_14.png)
 ![3](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_original_and_10samples.png)
-
-
-
-### Environment
-- Python 3.5
-- tensorflow 0.12
 
 #### Don't hesitate to star this project if it is helpful!
