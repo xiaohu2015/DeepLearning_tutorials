@@ -10,6 +10,8 @@ The deeplearning algorithms includes (now):
 
 ### Results
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
+![2](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_filters_at_epoch_14.png)
+![3](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_original_and_10samples.png)
 
 Note: the project aims at imitating the well-implemented algorithms in [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/) (coded by [Theano](http://deeplearning.net/software/theano/index.html)).
 
