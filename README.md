@@ -21,4 +21,7 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 ![3](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_original_and_10samples.png)
 ![4](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/DBN_results.png)
 
+### Practical examples
+You can find more practical examples with tensorflow here:
+
 #### Don't hesitate to star this project if it is helpful!
