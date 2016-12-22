@@ -23,6 +23,6 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 
 ### Practical examples
 You can find more practical examples with tensorflow here:
-- CNN for setence classification [self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/cnn_setence_classification) [blog](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/) [paper](https://arxiv.org/pdf/1408.5882v2.pdf)
+- CNN for setence classification [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/cnn_setence_classification)] [[blog](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/)] [[paper](https://arxiv.org/pdf/1408.5882v2.pdf)]
 
 #### Don't hesitate to star this project if it is helpful!
