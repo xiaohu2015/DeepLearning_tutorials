@@ -15,14 +15,16 @@ The deeplearning algorithms are carefully implemented by [tensorflow](https://ww
 
 Note: the project aims at imitating the well-implemented algorithms in [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/) (coded by [Theano](http://deeplearning.net/software/theano/index.html)).
 
+
+### Practical examples
+You can find more practical examples with tensorflow here:
+- CNN for setence classification [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/cnn_setence_classification)] [[blog](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/)] [[paper](https://arxiv.org/pdf/1408.5882v2.pdf)]
+
 ### Results
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
 ![2](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_filters_at_epoch_14.png)
 ![3](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/new_original_and_10samples.png)
 ![4](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/DBN_results.png)
 
-### Practical examples
-You can find more practical examples with tensorflow here:
-- CNN for setence classification [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/cnn_setence_classification)] [[blog](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/)] [[paper](https://arxiv.org/pdf/1408.5882v2.pdf)]
 
 #### Don't hesitate to star this project if it is helpful!
