@@ -19,6 +19,7 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 ### Practical examples
 You can find more practical examples with tensorflow here:
 - CNN for setence classification [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/cnn_setence_classification)] [[blog](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/)] [[paper](https://arxiv.org/pdf/1408.5882v2.pdf)]
+- RNN for language model [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/rnn_language_model)] [[blog](http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-2-implementing-a-language-model-rnn-with-python-numpy-and-theano/)]
 
 ### Results
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
