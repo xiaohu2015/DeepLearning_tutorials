@@ -98,6 +98,7 @@ class LSTM_Model(object):
         if self.is_training:
             sess.run(tf.assign(self._lr, lr_value))
     
+    
     @property
     def input(self):
         return self._x
