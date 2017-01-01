@@ -22,7 +22,7 @@ You can find more practical examples with tensorflow here:
 - RNN for language model [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/rnn_language_model)] [[blog](http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-2-implementing-a-language-model-rnn-with-python-numpy-and-theano/)]
 - LSTM for language model (PBT data) [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/lstm_model_ptb)] [[tutorial](https://www.tensorflow.org/versions/r0.12/tutorials/recurrent/index.html#recurrent-neural-networks)] [[paper](https://arxiv.org/pdf/1409.2329.pdf)]
 - VGG model for image classification (object recongnition) [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/VGG)] [[source](https://github.com/machrisaa/tensorflow-vgg)]
-- Residual network for cifar10_dataset [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/Resnet)] [[source](https://github.com/wenxinxu/resnet-in-tensorflow)]
+- Residual network for cifar10_dataset [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/Resnet)] [[source](https://github.com/wenxinxu/resnet-in-tensorflow)] [[paper](https://arxiv.org/pdf/1603.05027v3.pdf)]
 
 ### Results
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
