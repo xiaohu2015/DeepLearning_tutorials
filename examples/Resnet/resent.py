@@ -29,9 +29,6 @@ class ResnetConfig(object):
     # Default initializer
     initializer = tf.contrib.layers.xavier_initializer
 
-
-
-
 class Resnet(object):
     """
     A deep residual learning network class
@@ -239,7 +236,6 @@ class Resnet(object):
         cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(self._output, y)
         return tf.reduce_mean(cross_entropy)
 
-
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = load_cifar10_dataset(shape=(-1, 32, 32, 3), plotable=False)
     train_dir = sys.path[0] + "/train_dir"
@@ -264,9 +260,4 @@ if __name__ == "__main__":
             acc += sess.run(accuracy, feed_dict={resent.input: X_test_a, y: y_test_a})
             n_batchs += 1
         print("Epoch {0}, test accuracy {1}".format(epoch, acc/n_batchs))
-
-
-    
-
-    
 
