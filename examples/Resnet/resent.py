@@ -7,7 +7,6 @@ import sys
 import numpy as np
 import tensorflow as tf
 import tensorlayer as tl
-
 from tensorlayer.files import load_cifar10_dataset
 
 def tensor_summary(tensor):
