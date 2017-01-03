@@ -61,7 +61,7 @@ class LSTM_Model(object):
         # Note: we compute the outputs by unrolling the lstm
         # you can also use tf.nn.rnn to simplify the following codes
         """
-        inputs = tf.unstack(inputs, num_steps, axis=1) # list of [batch_size, vocab_size] from time step 0 to the end
+        inputs = tf.unstack(inputs, num_steps, axis=1) # list of [batch_size, hidden_size] from time step 0 to the end
         outputs, state = tf.nn.rnn(cell, inputs, initial_state=self._initial_state)
         """
         outputs = []
