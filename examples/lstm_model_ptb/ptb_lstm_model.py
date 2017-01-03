@@ -52,7 +52,7 @@ class LSTM_Model(object):
         # The embedding layer
         with tf.device("/cpu:0"):
             embedding = tf.get_variable("embedding", shape=[vocab_size, hidden_size])
-            inputs = tf.nn.embedding_lookup(embedding, self._x)  # [batch_size, num_steps, vocab_size]
+            inputs = tf.nn.embedding_lookup(embedding, self._x)  # [batch_size, num_steps, hidden_size]
         # Dropout
         if is_training and keep_prob < 1.0:
             inputs = tf.nn.dropout(inputs, keep_prob=keep_prob)
