@@ -21,7 +21,6 @@ def batch_iterate(num_batchs, batch_size, num_steps):
         start += num_steps
         yield (x[:, :, np.newaxis], y[:, :, np.newaxis], xo)
 
-    
 class LstmRegression(object):
     """
     A lstm class for time series prediction
@@ -94,7 +93,6 @@ class LstmRegression(object):
                                     softmax_loss_function=self._ms_cost)
         self.cost = tf.reduce_sum(losses)/tf.to_float(self.batch_size)
 
-
     def _ms_cost(self, y_pred, y_target):
         """The quadratic cost function"""
         return 0.5*tf.square(y_pred - y_target)
@@ -107,8 +105,6 @@ class LstmRegression(object):
                                     initializer=tf.random_normal_initializer(mean=0.0, stddev=1.0))
         biases = tf.get_variable("bias", shape=[out_size,], initializer=tf.constant_initializer(0.1))
         return weights, biases
-
-
 
 if __name__ == "__main__":
     batch_size = 50
@@ -158,12 +154,3 @@ if __name__ == "__main__":
             plt.draw()
             plt.pause(0.3)
             
-            
-
-
-            
-
-
-
-
-
