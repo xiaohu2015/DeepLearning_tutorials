@@ -21,7 +21,7 @@ class LSTM_Model(object):
         :param batch_size: int, batch size, you can also not give the batch_size
         :param hidden_size: int, the number of hidden units in lstm
         :param num_lstm_layers: int, the number of lstm layers
-        :param keep_prob: int, the keep probability of dropout layer
+        :param keep_prob: float, the keep probability of dropout layer
         :param max_grad_norm: int, regularize gradients by norm
         :param is_training: bool, set True for training model, but False for test model
                             Note we construct three models with shared weight variables
