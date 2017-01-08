@@ -1,1 +1,1 @@
-- [Generative Adversarial Nets in TensorFlow](http://blog.evjang.com/2016/06/generative-adversarial-nets-in.html)
+- [Generative Adversarial Nets in TensorFlow](http://blog.evjang.com/2016/06/generative-adversarial-nets-in.html) [[myBlog](http://blog.csdn.net/xiaohu2022/article/details/54234263)]
