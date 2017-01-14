@@ -1,10 +1,8 @@
 """
 A simple generative adversarial networks (GAN)
 source: https://github.com/AYLIEN/gan-intro/blob/master/gan.py
-paper: https://github.com/AYLIEN/gan-intro/blob/master/gan.py
 2017/01/12
 """
-
 import numpy as np
 from scipy.stats import norm
 import tensorflow as tf
@@ -15,7 +13,6 @@ import seaborn as sns
 seed = 24
 np.random.seed(seed)
 tf.set_random_seed(seed)
-
 
 class NormDistribution(object):
     """ 1-D Guassian Distribution"""
@@ -82,7 +79,6 @@ class Generator(object):
         h1 = tf.tanh(linear(h0, 1, scope="g1"))
         return h1
 
-
 class Discriminator(object):
     """A class of discriminator"""
     def __init__(self, hidden_size, minibatch_layer=True):
@@ -110,7 +106,6 @@ def optimizer(loss, var_list, init_lr):
     train_op = tf.train.GradientDescentOptimizer(lr).minimize(loss, global_step=global_step,
                                                                 var_list=var_list)
     return train_op
-
 
 class GAN(object):
     """A simple generative adversarial network to train 1-D norm distribution"""
@@ -216,7 +211,6 @@ class GAN(object):
             if epoch % display_every == 0:
                 print("Epoch {0}, d_loss {1}, g_loss {2}".format(epoch, d_losses, g_loss)) 
 
-
     def _sample(self, sess, batch_size =20, num_points=10000, num_bins=100):
         """Sampler"""
         # Decision boundary given by Discriminator
@@ -232,7 +226,6 @@ class GAN(object):
         d = self.data.sample(num_points)
         pds, _ = np.histogram(d, bins=bins, density=True)
         
-
         # The generated distribution
         zs = np.linspace(-self.z_data.scope, self.z_data.scope, num_points)
         gds = np.zeros((num_points))
@@ -262,13 +255,6 @@ class GAN(object):
         plt.ylabel("Probability density")
         plt.legend()
         plt.show()
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     sess = tf.Session()
