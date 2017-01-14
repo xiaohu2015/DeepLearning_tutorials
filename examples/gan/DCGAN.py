@@ -184,17 +184,3 @@ if __name__ == "__main__":
         img = combine_images(images)
         img = img*127.5 + 127.5
         Image.fromarray(img.astype(np.uint8)).save("epoch{0}_g_images.png".format(epoch))
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-        
