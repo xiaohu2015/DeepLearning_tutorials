@@ -2,6 +2,7 @@
 - [An introduction to Generative Adversarial Networks (with code in TensorFlow)](http://blog.aylien.com/introduction-generative-adversarial-networks-code-tensorflow/)
 - [Keras DCGAN](https://github.com/jacobgil/keras-dcgan)
 - [Tensorflow DCGAN](https://github.com/carpedm20/DCGAN-tensorflow)
+- [Image Completion with Deep Learning in TensorFlow](http://bamos.github.io/2016/08/09/deep-completion/)
 
 ## Results
 ![minist](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/examples/gan/epoch3_g_images.png)
