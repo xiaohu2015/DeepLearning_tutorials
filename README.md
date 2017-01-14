@@ -33,7 +33,8 @@ You can find more practical examples with tensorflow here:
 ![4](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/DBN_results.png)
 ![5](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/examples/lstm_time_series_regression/lstm_regression_results.png)
 
-
+### Fun Blogs
+- [Chatbots with Seq2Seq](http://suriyadeepan.github.io/2016-06-28-easy-seq2seq/)
 
 #### Don't hesitate to star this project if it is helpful!
 ### If you benefit from the tutorial, please make a small donation by WeChat sweep.
