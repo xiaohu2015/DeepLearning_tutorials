@@ -33,7 +33,6 @@ def conv2d(inpt, nb_filter, filter_size=5, strides=2, bias=True, stddev=0.02, pa
 # Convolution 2D Transpose
 def deconv2d(inpt, output_shape, filter_size=5, strides=2, bias=True, stddev=0.02,
               padding="SAME", name="deconv2d"):
-  
     in_channels = inpt.get_shape().as_list()[-1]
     with tf.variable_scope(name):
         # Note: filter with shape [height, width, output_channels, in_channels]
@@ -54,17 +53,25 @@ def lrelu(x, leak=0.2, name="lrelu"):
 def linear(x, output_dim, stddev=0.02, name="linear"):
     input_dim = x.get_shape().as_list()[-1]
     with tf.variable_scope(name):
-        w = tf.get_variable("w", shape=[input_dim, output_dim], initializer=tf.random_normal_initializer(stddev=stddev))
+        w = tf.get_variable("w", shape=[input_dim, output_dim], initializer=\
+                        tf.random_normal_initializer(stddev=stddev))
         b = tf.get_variable("b", shape=[output_dim,], initializer=tf.constant_initializer(0.0))
         return tf.nn.xw_plus_b(x, w, b)
 
 class DCGAN(object):
     """A class of DCGAN model"""
-    def __init__(self, z_dim=100, output_dim=28, batch_size=100, c_dim=1, df_dim=64, gf_dim=64, gfc_dim=1024,
-                 dfc_dim=1024, n_conv=2, n_deconv=2):
+    def __init__(self, z_dim=100, output_dim=28, batch_size=100, c_dim=1, df_dim=64, gf_dim=64, dfc_dim=1024,
+                  n_conv=3, n_deconv=2):
         """
         :param z_dim: int, the dimension of z (the noise input of generator)
-        :param output_dim: int, 
+        :param output_dim: int, the resolution in pixels of the images (height, width)
+        :param batch_size: int, the size of the mini-batch
+        :param c_dim: int, the dimension of image color, for minist, it is 1 (grayscale)
+        :param df_dim: int, the number of filters in the first convolution layer of discriminator
+        :param gf_dim: int, the number of filters in the penultimate deconvolution layer of generator (last is 1)
+        :param dfc_dim: int, the number of units in the penultimate fully-connected layer of discriminator (last is 1)
+        :param n_conv: int, number of convolution layer in discriminator (the number of filters is double increased)
+        :param n_deconv: int, number of deconvolution layer in generator (the number of filters is double reduced)
         """
         self.z_dim = z_dim
         self.output_dim = output_dim
@@ -102,7 +109,7 @@ class DCGAN(object):
     def _discriminator(self, input, reuse=False):
         with tf.variable_scope("D", reuse=reuse):
             h = lrelu(conv2d(input, nb_filter=self.df_dim, name="d_conv0"))
-            for i in range(1, self.n_conv+1):
+            for i in range(1, self.n_conv):
                 conv = conv2d(h, nb_filter=self.df_dim*(2**i), name="d_conv{0}".format(i))
                 h = lrelu(batch_norm(conv, name="d_bn{0}".format(i)))
             h = linear(tf.reshape(h, shape=[self.batch_size, -1]), self.dfc_dim, name="d_lin0")
@@ -112,22 +119,25 @@ class DCGAN(object):
     def _generator(self, input):
         with tf.variable_scope("G"):
             nb_fliters = [self.gf_dim]
-            s = [self.output_dim]
+            f_size = [self.output_dim//2]
             for i in range(1, self.n_deconv):
                 nb_fliters.append(nb_fliters[-1]*2)
-                s.append(s[-1]//2)
-            s.append(s[-1]//2)
-            h = linear(input, nb_fliters[-1]*s[-1]*s[-1], name="g_lin0")
-            h = tf.nn.relu(batch_norm(tf.reshape(h, shape=[-1, s[-1], s[-1], nb_fliters[-1]]), name="g_bn0"))
+                f_size.append(f_size[-1]//2)
+    
+            h = linear(input, nb_fliters[-1]*f_size[-1]*f_size[-1], name="g_lin0")
+            h = tf.nn.relu(batch_norm(tf.reshape(h, shape=[-1, f_size[-1], f_size[-1], nb_fliters[-1]]),
+                            name="g_bn0"))
             for i in range(1, self.n_deconv):
-                h = deconv2d(h, [self.batch_size, s[-i-1], s[-i-1], nb_fliters[-i-1]], 
+                h = deconv2d(h, [self.batch_size, f_size[-i-1], f_size[-i-1], nb_fliters[-i-1]], 
                                     name="g_deconv{0}".format(i-1))
                 h = tf.nn.relu(batch_norm(h, name="g_bn{0}".format(i)))
             
-            h = deconv2d(h, [self.batch_size, s[0], s[0], self.c_dim], name="g_deconv{0}".format(self.n_deconv-1))
+            h = deconv2d(h, [self.batch_size, self.output_dim, self.output_dim, self.c_dim], 
+                            name="g_deconv{0}".format(self.n_deconv-1))
             return tf.nn.tanh(h)
 
 def combine_images(images):
+    """Combine the bacth images"""
     num = images.shape[0]
     width = int(np.sqrt(num))
     height = int(np.ceil(num/width))
@@ -139,8 +149,8 @@ def combine_images(images):
         img[i*h:(i+1)*h, j*w:(j+1)*w] = m[:, :, 0]
     return img
 
-        
 if __name__ == "__main__":
+    # Load minist data
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
     X_train = (np.asarray(X_train, dtype=np.float32) - 127.5)/127.5
     X_train = np.reshape(X_train, [-1, 28, 28, 1])
@@ -152,7 +162,7 @@ if __name__ == "__main__":
 
     sess = tf.Session()
     dcgan = DCGAN(z_dim=z_dim, output_dim=28, batch_size=128, c_dim=1)
-    
+    # The optimizers
     d_train_op = tf.train.AdamOptimizer(lr, beta1=0.5).minimize(dcgan.d_loss, 
                                                 var_list=dcgan.d_vars)
     g_train_op = tf.train.AdamOptimizer(lr, beta1=0.5).minimize(dcgan.g_loss,
@@ -160,7 +170,6 @@ if __name__ == "__main__":
     sess.run(tf.global_variables_initializer())
 
     num_batches = int(len(X_train)/batch_size)
-
     for epoch in range(n_epochs):
         print("Epoch", epoch)
         d_losses = 0
@@ -184,3 +193,7 @@ if __name__ == "__main__":
         img = combine_images(images)
         img = img*127.5 + 127.5
         Image.fromarray(img.astype(np.uint8)).save("epoch{0}_g_images.png".format(epoch))
+
+
+
+        
