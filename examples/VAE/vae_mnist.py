@@ -163,10 +163,17 @@ if __name__ == "__main__":
         zs = np.concatenate((xs, ys), axis=1)
 
         canvas = np.zeros((28*ny, 28*nx))
+        xs_recon = np.zeros((batch_size*4, 28*28))
         for i in range(4):
             z_mu = zs[batch_size*i:batch_size*(i+1), :]
             x_mean = sess.run(vae.x_reconstr_mean, feed_dict={vae.z: z_mu})
-            canvas[(ny-(i+1)*5)*28:(ny-i*5)*28] = x_mean.reshape(-1, 28*nx)[::-1]
+            xs_recon[i*batch_size:(i+1)*batch_size] = x_mean
+        
+        n = 0
+        for i in range(nx):
+            for j in range(ny):
+                canvas[(ny-i-1)*28:(ny-i)*28, j*28:(j+1)*28] = xs_recon[n].reshape(28, 28)
+                n = n + 1
         
         plt.figure(figsize=(8, 10))
         plt.imshow(canvas, origin="upper", vmin=0, vmax=1, interpolation='none', cmap='gray')
