@@ -25,6 +25,7 @@ You can find more practical examples with tensorflow here:
 - Residual network for cifar10_dataset [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/Resnet)] [[source](https://github.com/wenxinxu/resnet-in-tensorflow)] [[paper](https://arxiv.org/pdf/1603.05027v3.pdf)]
 - LSTM for time series prediction [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/examples/lstm_time_series_regression)] [[source](https://github.com/MorvanZhou/tutorials/blob/master/tensorflowTUT/tf20_RNN2.2/full_code.py)]
 - Generative adversarial network (GAN) [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/examples/gan)]
+- Variational autoencoder (VAE) [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/tree/master/examples/VAE)]
 
 ### Results
 ![1](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/filters_corruption_30.png)
