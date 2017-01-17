@@ -6,3 +6,5 @@
 ## Results
 Reconstruction after 20 epoch with 20-D latent space:
 ![img_epoch20](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/examples/VAE/img_epoch20.jpg)
+Random sampling after 80 epoch with 2-D latent space:
+![rand_sanpling80](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/examples/VAE/rand_img_epoch80.jpg)
