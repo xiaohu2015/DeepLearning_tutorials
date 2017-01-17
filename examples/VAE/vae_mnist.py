@@ -173,8 +173,3 @@ if __name__ == "__main__":
         plt.tight_layout()
         plt.savefig(path+"/results/rand_img_epoch{0}.jpg".format(n_epochs))
         plt.show()
-
-
-        
-
-    
