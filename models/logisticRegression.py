@@ -1,7 +1,7 @@
 """
 Logistic Regression
 author: Ye Hu
-2016/12/14
+2016/12/14  update 2017/02/16
 """
 import numpy as np
 import tensorflow as tf
@@ -42,30 +42,30 @@ class LogisticRegression(object):
 
 
 if __name__ == "__main__":
-    # 导入数据
+    # Load mnist dataset
     mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-    # 定义输入输出Tensor
+    # Define placeholder for input and target
     x = tf.placeholder(tf.float32, shape=[None, 784])
     y_ = tf.placeholder(tf.float32, shape=[None, 10])
 
-    # 定义分类器
+    # Construct model
     classifier = LogisticRegression(x, n_in=784, n_out=10)
     cost = classifier.cost(y_)
     accuracy = classifier.accuarcy(y_)
     predictor = classifier.y_pred
-    # 定义训练器
+    # Define the train operation
     train_op = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(
         cost, var_list=classifier.params)
 
-    # 初始化所有变量
+    # Initialize all variables
     init = tf.global_variables_initializer()
 
-    # 定义训练参数
+    # Training settings
     training_epochs = 50
     batch_size = 100
     display_step = 5
 
-    # 开始训练
+    # Train loop
     print("Start to train...")
     with tf.Session() as sess:
         sess.run(init)
@@ -74,11 +74,11 @@ if __name__ == "__main__":
             batch_num = int(mnist.train.num_examples/batch_size)
             for i in range(batch_num):
                 x_batch, y_batch = mnist.train.next_batch(batch_size)
-                # 训练
-                sess.run(train_op, feed_dict={x: x_batch, y_: y_batch})
-                # 计算cost
-                avg_cost += sess.run(cost, feed_dict={x: x_batch, y_: y_batch})/batch_num
-            # 输出
+                # Run train op
+                c, _ = sess.run([cost, train_op], feed_dict={x: x_batch, y_: y_batch})
+                # Sum up cost
+                avg_cost += c/batch_num
+
             if epoch % display_step == 0:
                 val_acc = sess.run(accuracy, feed_dict={x: mnist.validation.images,
                                                        y_: mnist.validation.labels})
