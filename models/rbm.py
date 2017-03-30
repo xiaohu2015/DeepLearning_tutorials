@@ -139,7 +139,11 @@ class RBM(object):
         reduce_activation_v_clip = tf.clip_by_value(1.0 - activation_v, clip_value_min=1e-30, clip_value_max=1.0)
         cross_entropy = -tf.reduce_mean(tf.reduce_sum(self.input*(tf.log(activation_v_clip)) + 
                                     (1.0 - self.input)*(tf.log(reduce_activation_v_clip)), axis=1))
-        return cross_entropy                                            
+        return cross_entropy   
+    def reconstruct(self, v):
+        """Reconstruct the original input by RBM"""
+        h = self.propup(v)
+        return self.propdown(h) 
 
 if __name__ == "__main__":
     # mnist examples
