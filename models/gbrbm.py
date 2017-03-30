@@ -45,9 +45,9 @@ class GBRBM(RBM):
             v1_sample = GBRBM.sample_gaussian(v1_mean, self.sigma)
         return (v1_mean, v1_sample)
     
-    def propdown(self, h):
-        """Compute the sigmoid activation for visible units given hidden units"""
-        return tf.nn.sigmoid(tf.matmul(h, tf.transpose(self.W)) / self.sigma**2 + self.vbias)
+    def propup(self, v):
+        """Compute the sigmoid activation for hidden units given visible units"""
+        return tf.nn.sigmoid(tf.matmul(v, self.W) / self.sigma**2 + self.hbias)
     
     def free_energy(self, v_sample):
         """Compute the free energy"""
