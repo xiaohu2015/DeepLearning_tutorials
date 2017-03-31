@@ -3,9 +3,13 @@ Restricted Boltzmann Machines (RBM)
 author: Ye Hu
 2016/12/18
 """
+import os
 import timeit
 import numpy as np
 import tensorflow as tf
+from PIL import Image
+from utils import tile_raster_images
+import input_data
 from rbm import RBM
 
 
@@ -56,39 +60,97 @@ class GBRBM(RBM):
         hidden_term = tf.reduce_sum(tf.log(1.0 + tf.exp(wx_b)), axis=1)
         return -hidden_term + vbias_term
     
+    def get_reconstruction_cost(self):
+        """Compute the mse of the original input and the reconstruction"""
+        activation_h = self.propup(self.input)
+        activation_v = self.propdown(activation_h)
+        mse = tf.reduce_mean(tf.reduce_sum(tf.square(self.input - activation_v), axis=1))
+        return mse  
+        
+    
 
 if __name__ == "__main__":
-    data = np.random.randn(1000, 6)
-    x = tf.placeholder(tf.float32, shape=[None, 6])
-
-    gbrbm = GBRBM(x, n_visiable=6, n_hidden=5)
-
-    learning_rate = 0.1
-    k = 1
-    batch_size = 20
-    n_epochs = 10
-
-    cost = gbrbm.get_reconstruction_cost()
+    # mnist examples
+    mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+    # define input
+    x = tf.placeholder(tf.float32, shape=[None, 784])
+    # set random_seed
+    tf.set_random_seed(seed=99999)
+    np.random.seed(123)
+    # the rbm model
+    n_visiable, n_hidden = 784, 500
+    rbm = GBRBM(x, n_visiable=n_visiable, n_hidden=n_hidden)
+    
+    learning_rate = 0.01
+    batch_size = 50
+    cost = rbm.get_reconstruction_cost()
     # Create the persistent variable
     #persistent_chain = tf.Variable(tf.zeros([batch_size, n_hidden]), dtype=tf.float32)
     persistent_chain = None
-    train_ops = gbrbm.get_train_ops(learning_rate=learning_rate, k=1, persistent=persistent_chain)
+    train_ops = rbm.get_train_ops(learning_rate=learning_rate, k=1, persistent=persistent_chain)
     init = tf.global_variables_initializer()
 
-    sess = tf.Session()
-    sess.run(init)
-    for epoch in range(n_epochs):
-        avg_cost = 0.0
-        for i in range(len(data)//batch_size):
-            sess.run(train_ops, feed_dict={x: data[i*batch_size:(i+1)*batch_size]})
-            avg_cost += sess.run(cost, feed_dict={x: data[i*batch_size:(i+1)*batch_size]})/batch_size
-        print(avg_cost)
-    
-    # test
-    v = np.random.randn(10, 6)
-    print(v)
+    output_folder = "rbm_plots"
+    if not os.path.isdir(output_folder):
+        os.makedirs(output_folder)
+    os.chdir(output_folder)
 
-    preds = sess.run(gbrbm.reconstruct(x), feed_dict={x: v})
-    print(preds)   
+    training_epochs = 15
+    display_step = 1
+    print("Start training...")
+   
+    with tf.Session() as sess:
+        start_time = timeit.default_timer()
+        sess.run(init)
+        for epoch in range(training_epochs):
+            avg_cost = 0.0
+            batch_num = int(mnist.train.num_examples / batch_size)
+            for i in range(batch_num):
+                x_batch, _ = mnist.train.next_batch(batch_size)
+                # 训练
+                sess.run(train_ops, feed_dict={x: x_batch})
+                # 计算cost
+                avg_cost += sess.run(cost, feed_dict={x: x_batch,}) / batch_num
+            # 输出
+            if epoch % display_step == 0:
+                print("Epoch {0} cost: {1}".format(epoch, avg_cost))
+            # Construct image from the weight matrix
+            image = Image.fromarray(
+            tile_raster_images(
+                X=sess.run(tf.transpose(rbm.W)),
+                img_shape=(28, 28),
+                tile_shape=(10, 10),
+                tile_spacing=(1, 1)))
+            image.save("test_filters_at_epoch_{0}.png".format(epoch))
+
+        end_time = timeit.default_timer()
+        training_time = end_time - start_time
+        print("Finished!")
+        print("  The training ran for {0} minutes.".format(training_time/60,))
+        
+        # Randomly select the 'n_chains' examples
+        n_chains = 20
+        n_batch = 10
+        n_samples = n_batch*2
+        number_test_examples = mnist.test.num_examples
+        test_indexs = np.random.randint(number_test_examples - n_chains*n_batch)
+        test_samples = mnist.test.images[test_indexs:test_indexs+n_chains*n_batch]
+        image_data = np.zeros((29*(n_samples+1)+1, 29*(n_chains)-1),
+                          dtype="uint8")
+        # Add the original images
+        for i in range(n_batch):
+            image_data[2*i*29:2*i*29+28,:] = tile_raster_images(X=test_samples[i*n_batch:(i+1)*n_chains],
+                                            img_shape=(28, 28),
+                                            tile_shape=(1, n_chains),
+                                            tile_spacing=(1, 1))
+            samples = sess.run(rbm.reconstruct(x), feed_dict={x:test_samples[i*n_batch:(i+1)*n_chains]})
+            image_data[(2*i+1)*29:(2*i+1)*29+28,:] = tile_raster_images(X=samples,
+                                            img_shape=(28, 28),
+                                            tile_shape=(1, n_chains),
+                                            tile_spacing=(1, 1))
+        
+        image = Image.fromarray(image_data)
+        image.save("original_and_reconstruct.png")
+
 
     
