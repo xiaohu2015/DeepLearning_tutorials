@@ -9,7 +9,7 @@ The deeplearning algorithms are carefully implemented by [tensorflow](https://ww
 - Multi-Layer Perceptron (MLP) [mlp.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/mlp.py)
 - Convolution Neural Network (CNN) [cnn.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/cnn.py)
 - Denoising Aotoencoder (DA) [da.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/da.py)
-- Stacked Denoising Autoencoder (SDA) [sda.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/sdan.py)
+- Stacked Denoising Autoencoder (SDA) [sda.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/sda.py)
 - Restricted Boltzmann Machine (RBM) [[rbm.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/rbm.py)    [gbrbm.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/gbrbm.py)]
 - Deep Belief Network (DBN) [dbn.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/dbn.py)
 
