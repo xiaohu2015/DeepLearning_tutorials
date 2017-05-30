@@ -43,6 +43,10 @@ You can find more practical examples with tensorflow here:
 ### Other Tutorials
 - [ageron/handson-ml
 ](https://github.com/ageron/handson-ml/)
+- [Hvass-Labs/TensorFlow-Tutorials
+](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
+- [BinRoot/TensorFlow-Book
+](https://github.com/BinRoot/TensorFlow-Book)
 
 #### Don't hesitate to star this project if it is helpful!
 ### If you benefit from the tutorial, please make a small donation by WeChat sweep.
