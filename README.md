@@ -47,6 +47,8 @@ You can find more practical examples with tensorflow here:
 ](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
 - [BinRoot/TensorFlow-Book
 ](https://github.com/BinRoot/TensorFlow-Book)
+- [sjchoi86/dl_tutorials_10weeks
+](https://github.com/sjchoi86/dl_tutorials_10weeks)
 
 #### Don't hesitate to star this project if it is helpful!
 ### If you benefit from the tutorial, please make a small donation by WeChat sweep.
