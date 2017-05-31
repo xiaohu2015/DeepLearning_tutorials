@@ -38,7 +38,7 @@ You can find more practical examples with tensorflow here:
 - [Chatbots with Seq2Seq](http://suriyadeepan.github.io/2016-06-28-easy-seq2seq/)
 
 ### Personal Notes
-- Tensorflow for RNNs [[tf_rnn.ipynb]()]
+- Tensorflow for RNNs [[tf_rnn.ipynb](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/notes/tf_rnn.ipynb)]
 
 ### Other Tutorials
 - [ageron/handson-ml
