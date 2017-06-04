@@ -39,6 +39,7 @@ You can find more practical examples with tensorflow here:
 
 ### Personal Notes
 - Tensorflow for RNNs [[tf_rnn.ipynb](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/notes/tf_rnn.ipynb)]
+- Tensorflow for Autoencoder [[tf_autoencoder.ipynb](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/notes/tf_autoencoder.ipynb)]
 
 ### Other Tutorials
 - [ageron/handson-ml
