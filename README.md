@@ -15,6 +15,10 @@ The deeplearning algorithms are carefully implemented by [tensorflow](https://ww
 
 Note: the project aims at imitating the well-implemented algorithms in [Deep Learning Tutorials](http://www.deeplearning.net/tutorial/) (coded by [Theano](http://deeplearning.net/software/theano/index.html)).
 
+### CNN Models
+- MobileNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/MobileNet.py) [paper](https://arxiv.org/abs/1704.04861) [ref](https://github.com/Zehaos/MobileNet/blob/master/nets/mobilenet.py)]
+
+
 
 ### Practical examples
 You can find more practical examples with tensorflow here:
