@@ -1,3 +1,4 @@
+
 # Deep Learning Tutorials with Tensorflow
 The deeplearning algorithms are carefully implemented by [tensorflow](https://www.tensorflow.org/).  
 ### Environment
@@ -61,3 +62,4 @@ You can find more practical examples with tensorflow here:
 ![weichat](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/weichat.jpg)
 ## 微信号：xiaoxiaohu1994
 ## 欢迎关注微信公众号：机器学习算法全栈工程师(Jeemy110)
+![公众号](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/results/654362565405877642.jpg)
