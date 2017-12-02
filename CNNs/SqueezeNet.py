@@ -37,6 +37,8 @@ class SqueezeNet(object):
                                       name="maxpool8")
         # fire9
         net = self._fire(net, 64, 256, "fire9")
+        # dropout
+        net = tf.layers.dropout(net, 0.5, training=is_training)
         # conv10
         net = tf.layers.conv2d(net, 1000, [1, 1], strides=[1, 1],
                                padding="SAME", activation=tf.nn.relu,
