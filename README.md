@@ -19,6 +19,7 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 ### CNN Models
 - MobileNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/MobileNet.py) [paper](https://arxiv.org/abs/1704.04861) [ref](https://github.com/Zehaos/MobileNet/blob/master/nets/mobilenet.py)]
 - SqueezeNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/SqueezeNet.py) [paper](https://arxiv.org/abs/1602.07360)]
+- ResNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/ResNet50.py) [caffe ref](https://github.com/KaimingHe/deep-residual-networks) [paper1](https://arxiv.org/abs/1512.03385) [paper2](https://arxiv.org/abs/1603.05027)]
 
 
 
