@@ -3,7 +3,8 @@
 The deeplearning algorithms are carefully implemented by [tensorflow](https://www.tensorflow.org/).  
 ### Environment
 - Python 3.5
-- tensorflow 0.12
+- tensorflow 1.4
+- pytorch 0.2.0
 
 ### The deeplearning algorithms includes (now):
 - Logistic Regression  [logisticRegression.py](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/models/logisticRegression.py)
@@ -20,6 +21,7 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 - MobileNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/MobileNet.py) [paper](https://arxiv.org/abs/1704.04861) [ref](https://github.com/Zehaos/MobileNet/blob/master/nets/mobilenet.py)]
 - SqueezeNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/SqueezeNet.py) [paper](https://arxiv.org/abs/1602.07360)]
 - ResNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/ResNet50.py) [caffe ref](https://github.com/KaimingHe/deep-residual-networks) [paper1](https://arxiv.org/abs/1512.03385) [paper2](https://arxiv.org/abs/1603.05027)]
+- ShuffleNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/ShuffleNet.py) by pytorch [paper](http://cn.arxiv.org/pdf/1707.01083v2)]
 
 
 
