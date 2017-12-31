@@ -131,7 +131,7 @@ class Yolo(object):
         weight = tf.Variable(tf.truncated_normal([filter_size, filter_size,
                                                   in_channels, num_filters], stddev=0.1))
         bias = tf.Variable(tf.zeros([num_filters,]))
-        # padding, note: not using padding="VALID"
+        # padding, note: not using padding="SAME"
         pad_size = filter_size // 2
         pad_mat = np.array([[0, 0], [pad_size, pad_size], [pad_size, pad_size], [0, 0]])
         x_pad = tf.pad(x, pad_mat)
