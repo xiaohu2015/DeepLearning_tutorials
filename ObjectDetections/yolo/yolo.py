@@ -11,8 +11,8 @@ def leak_relu(x, alpha=0.1):
     return tf.maximum(alpha * x, x)
 
 class Yolo(object):
-    def __init__(self, weights_file, verbose=True):
-        self.verbose = verbose
+    def __init__(self, weights_file):
+        self.verbose = True
         # detection params
         self.S = 7  # cell size
         self.B = 2  # boxes_per_cell
@@ -26,14 +26,11 @@ class Yolo(object):
                                               [self.B, self.S, self.S]), [1, 2, 0])
         self.y_offset = np.transpose(self.x_offset, [1, 0, 2])
 
-        self.threshold = 0.2  # confidence scores threhold
-        self.iou_threshold = 0.4
-        #  the maximum number of boxes to be selected by non max suppression
-        self.max_output_size = 10
+        self.threshold = 0.2  # confidence scores threshold
+        self.iou_threshold = 0.5
 
         self.sess = tf.Session()
         self._build_net()
-        self._build_detector()
         self._load_weights(weights_file)
 
     def _build_net(self):
@@ -74,56 +71,6 @@ class Yolo(object):
         net = self._fc_layer(net, 26, 4096, activation=leak_relu)
         net = self._fc_layer(net, 27, self.S*self.S*(self.C+5*self.B))
         self.predicts = net
-
-    def _build_detector(self):
-        """Interpret the net output and get the predicted boxes"""
-        # the width and height of orignal image
-        self.width = tf.placeholder(tf.float32, name="img_w")
-        self.height = tf.placeholder(tf.float32, name="img_h")
-        # get class prob, confidence, boxes from net output
-        idx1 = self.S * self.S * self.C
-        idx2 = idx1 + self.S * self.S * self.B
-        # class prediction
-        class_probs = tf.reshape(self.predicts[0, :idx1], [self.S, self.S, self.C])
-        # confidence
-        confs = tf.reshape(self.predicts[0, idx1:idx2], [self.S, self.S, self.B])
-        # boxes -> (x, y, w, h)
-        boxes = tf.reshape(self.predicts[0, idx2:], [self.S, self.S, self.B, 4])
-
-        # convert the x, y to the coordinates relative to the top left point of the image
-        # the predictions of w, h are the square root
-        # multiply the width and height of image
-        boxes = tf.stack([(boxes[:, :, :, 0] + tf.constant(self.x_offset, dtype=tf.float32)) / self.S * self.width,
-                          (boxes[:, :, :, 1] + tf.constant(self.y_offset, dtype=tf.float32)) / self.S * self.height,
-                          tf.square(boxes[:, :, :, 2]) * self.width,
-                          tf.square(boxes[:, :, :, 3]) * self.height], axis=3)
-
-        # class-specific confidence scores [S, S, B, C]
-        scores = tf.expand_dims(confs, -1) * tf.expand_dims(class_probs, 2)
-
-        scores = tf.reshape(scores, [-1, self.C])  # [S*S*B, C]
-        boxes = tf.reshape(boxes, [-1, 4])  # [S*S*B, 4]
-
-        # find each box class, only select the max score
-        box_classes = tf.argmax(scores, axis=1)
-        box_class_scores = tf.reduce_max(scores, axis=1)
-
-        # filter the boxes by the score threshold
-        filter_mask = box_class_scores >= self.threshold
-        scores = tf.boolean_mask(box_class_scores, filter_mask)
-        boxes = tf.boolean_mask(boxes, filter_mask)
-        box_classes = tf.boolean_mask(box_classes, filter_mask)
-
-        # non max suppression (do not distinguish different classes)
-        # ref: https://tensorflow.google.cn/api_docs/python/tf/image/non_max_suppression
-        # box (x, y, w, h) -> box (x1, y1, x2, y2)
-        _boxes = tf.stack([boxes[:, 0] - 0.5 * boxes[:, 2], boxes[:, 1] - 0.5 * boxes[:, 3],
-                           boxes[:, 0] + 0.5 * boxes[:, 2], boxes[:, 1] + 0.5 * boxes[:, 3]], axis=1)
-        nms_indices = tf.image.non_max_suppression(_boxes, scores,
-                                                   self.max_output_size, self.iou_threshold)
-        self.scores = tf.gather(scores, nms_indices)
-        self.boxes = tf.gather(boxes, nms_indices)
-        self.box_classes = tf.gather(box_classes, nms_indices)
 
     def _conv_layer(self, x, id, num_filters, filter_size, stride):
         """Conv layer"""
@@ -182,24 +129,96 @@ class Yolo(object):
         # read image
         image = cv2.imread(image_file)
         img_h, img_w, _ = image.shape
-        scores, boxes, box_classes = self._detect_from_image(image)
-        predict_boxes = []
-        for i in range(len(scores)):
-            predict_boxes.append((self.classes[box_classes[i]], boxes[i, 0],
-                                boxes[i, 1], boxes[i, 2], boxes[i, 3], scores[i]))
+        predicts = self._detect_from_image(image)
+        predict_boxes = self._interpret_predicts(predicts, img_h, img_w)
         self.show_results(image, predict_boxes, imshow, deteted_boxes_file, detected_image_file)
 
     def _detect_from_image(self, image):
         """Do detection given a cv image"""
-        img_h, img_w, _ = image.shape
         img_resized = cv2.resize(image, (448, 448))
         img_RGB = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB)
         img_resized_np = np.asarray(img_RGB)
         _images = np.zeros((1, 448, 448, 3), dtype=np.float32)
         _images[0] = (img_resized_np / 255.0) * 2.0 - 1.0
-        scores, boxes, box_classes = self.sess.run([self.scores, self.boxes, self.box_classes],
-                    feed_dict={self.images: _images, self.width: img_w, self.height: img_h})
-        return scores, boxes, box_classes
+        predicts = self.sess.run(self.predicts, feed_dict={self.images: _images})[0]
+        return predicts
+
+    def _interpret_predicts(self, predicts, img_h, img_w):
+        """Interpret the predicts and get the detetction boxes"""
+        idx1 = self.S*self.S*self.C
+        idx2 = idx1 + self.S*self.S*self.B
+        # class prediction
+        class_probs = np.reshape(predicts[:idx1], [self.S, self.S, self.C])
+        # confidence
+        confs = np.reshape(predicts[idx1:idx2], [self.S, self.S, self.B])
+        # boxes -> (x, y, w, h)
+        boxes = np.reshape(predicts[idx2:], [self.S, self.S, self.B, 4])
+
+        # convert the x, y to the coordinates relative to the top left point of the image
+        boxes[:, :, :, 0] += self.x_offset
+        boxes[:, :, :, 1] += self.y_offset
+        boxes[:, :, :, :2] /= self.S
+
+        # the predictions of w, h are the square root
+        boxes[:, :, :, 2:] = np.square(boxes[:, :, :, 2:])
+
+        # multiply the width and height of image
+        boxes[:, :, :, 0] *= img_w
+        boxes[:, :, :, 1] *= img_h
+        boxes[:, :, :, 2] *= img_w
+        boxes[:, :, :, 3] *= img_h
+
+        # class-specific confidence scores [S, S, B, C]
+        scores = np.expand_dims(confs, -1) * np.expand_dims(class_probs, 2)
+
+        scores = np.reshape(scores, [-1, self.C]) # [S*S*B, C]
+        boxes = np.reshape(boxes, [-1, 4])        # [S*S*B, 4]
+
+        # filter the boxes when score < threhold
+        scores[scores < self.threshold] = 0.0
+
+        # non max suppression
+        self._non_max_suppression(scores, boxes)
+
+        # report the boxes
+        predict_boxes = [] # (class, x, y, w, h, scores)
+        max_idxs = np.argmax(scores, axis=1)
+        for i in range(len(scores)):
+            max_idx = max_idxs[i]
+            if scores[i, max_idx] > 0.0:
+                predict_boxes.append((self.classes[max_idx], boxes[i, 0], boxes[i, 1],
+                                      boxes[i, 2], boxes[i, 3], scores[i, max_idx]))
+        return predict_boxes
+
+    def _non_max_suppression(self, scores, boxes):
+        """Non max suppression"""
+        # for each class
+        for c in range(self.C):
+            sorted_idxs = np.argsort(scores[:, c])
+            last = len(sorted_idxs) - 1
+            while last > 0:
+                if scores[sorted_idxs[last], c] < 1e-6:
+                    break
+                for i in range(last):
+                    if scores[sorted_idxs[i], c] < 1e-6:
+                        continue
+                    if self._iou(boxes[sorted_idxs[i]], boxes[sorted_idxs[last]]) > self.iou_threshold:
+                        scores[sorted_idxs[i], c] = 0.0
+                last -= 1
+
+    def _iou(self, box1, box2):
+        """Compute the iou of two boxes"""
+
+        inter_w = np.minimum(box1[0]+0.5*box1[2], box2[0]+0.5*box2[2]) - \
+                  np.maximum(box1[0]-0.5*box2[2], box2[0]-0.5*box2[2])
+        inter_h = np.minimum(box1[1]+0.5*box1[3], box2[1]+0.5*box2[3]) - \
+                  np.maximum(box1[1]-0.5*box2[3], box2[1]-0.5*box2[3])
+        if inter_h < 0 or inter_w < 0:
+            inter = 0
+        else:
+            inter = inter_w * inter_h
+        union = box1[2]*box1[3] + box2[2]*box2[3] - inter
+        return inter / union
 
     def show_results(self, image, results, imshow=True, deteted_boxes_file=None,
                      detected_image_file=None):
@@ -235,3 +254,6 @@ class Yolo(object):
 if __name__ == "__main__":
     yolo_net = Yolo("./weights/YOLO_small.ckpt")
     yolo_net.detect_from_file("./test/car.jpg")
+
+
+
