@@ -24,6 +24,7 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 
 ### Object detection
 - YOLOv1 [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/ObjectDetections/yolo/yolo_tf.py) [paper](https://arxiv.org/abs/1506.02640) [ref](https://github.com/gliese581gg/YOLO_tensorflow)]
+- SSD [[self]() [paper](https://arxiv.org/pdf/1611.10012.pdf) [slides](http://www.cs.unc.edu/~wliu/papers/ssd_eccv2016_slide.pdf) [cafe](https://github.com/weiliu89/caffe/tree/ssd) [TF](https://arxiv.org/abs/1512.02325) [pytorch](https://github.com/amdegroot/ssd.pytorch) ]
 
 ### Practical examples
 You can find more practical examples with tensorflow here:
