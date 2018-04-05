@@ -1,5 +1,5 @@
 """
-Help functions for SSD
+Help functions for YOLOv2
 """
 import random
 import colorsys
