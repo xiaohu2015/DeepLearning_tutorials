@@ -21,6 +21,7 @@ Note: the project aims at imitating the well-implemented algorithms in [Deep Lea
 - SqueezeNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/SqueezeNet.py) [paper](https://arxiv.org/abs/1602.07360)]
 - ResNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/ResNet50.py) [caffe ref](https://github.com/KaimingHe/deep-residual-networks) [paper1](https://arxiv.org/abs/1512.03385) [paper2](https://arxiv.org/abs/1603.05027)]
 - ShuffleNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/ShuffleNet.py) by pytorch [paper](http://cn.arxiv.org/pdf/1707.01083v2)]
+- DenseNet [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/CNNs/densenet.py) [pytorch_ref](https://github.com/pytorch/vision/blob/master/torchvision/models/densenet.py) [paper](https://arxiv.org/abs/1608.06993)]
 
 ### Object detection
 - YOLOv1 [[self](https://github.com/xiaohu2015/DeepLearning_tutorials/blob/master/ObjectDetections/yolo/yolo_tf.py) [paper](https://arxiv.org/abs/1506.02640) [ref](https://github.com/gliese581gg/YOLO_tensorflow)]
