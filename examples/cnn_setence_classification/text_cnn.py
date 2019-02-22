@@ -81,7 +81,7 @@ class TextCNN(object):
                 pooled_outputs.append(pool_output)   # [None, 1, 1, num_filters]
         # Combine all pooled features
         num_filters_total = num_filters * len(filter_sizes)
-        self.h_pool = tf.concat(3, pooled_outputs)  # [None, 1, 1, num_filters_total]
+        self.h_pool = tf.concat( pooled_outputs,3)  # [None, 1, 1, num_filters_total]
         self.h_pool_flat = tf.reshape(self.h_pool, shape=[-1, num_filters_total]) # [None, num_filters_total]
 
         # The dropout layer
@@ -100,7 +100,7 @@ class TextCNN(object):
         
         # The loss
         with tf.name_scope("loss"):
-            losses = tf.nn.softmax_cross_entropy_with_logits(self.scores, self.y)
+            losses = tf.nn.softmax_cross_entropy_with_logits(logits=self.scores, labels=self.y)
             self.loss = tf.reduce_mean(losses) + L2_loss * l2_reg_lambda
         
         # Accuracy
