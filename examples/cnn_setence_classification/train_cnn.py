@@ -1,5 +1,5 @@
 """
-Test the TextRNN class 
+Test the TextRNN class
 2016/12/22
 """
 import os
@@ -11,7 +11,7 @@ from tensorflow.contrib import learn
 
 from data_helpers import load_data_and_labels, batch_iter
 from text_cnn import TextCNN
-
+import pudb;pu.db
 
 # Load original data
 path = sys.path[0]
